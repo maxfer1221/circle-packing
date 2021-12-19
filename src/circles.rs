@@ -1,8 +1,11 @@
-#[derive(Clone)]
+use sdl2::pixels::Color;
+
+#[derive(Clone, Debug)]
 pub struct Circle {
     pub x: f64,
     pub y: f64,
     pub r: f64,
+    pub c: Color,
 }
 
 impl PartialEq for Circle {
@@ -12,11 +15,15 @@ impl PartialEq for Circle {
 }
 
 impl Circle {
-    pub fn new(x: f64, y: f64, r: f64) -> Self {
+    pub fn new(x: f64, y: f64, r: f64, c: Option<Color>) -> Self {
         Circle {
             x: x,
             y: y,
             r: r,
+            c: match c {
+                Some(c) => c,
+                None => Color::RGB(255, 255, 255),
+            },
         }
     }
 
@@ -30,7 +37,7 @@ impl Circle {
 
     pub fn colliding_any(&self, circles: &Vec<Self>) -> bool {
         for c in circles {
-            if self.colliding(c) {
+            if self != c && self.colliding(c) {
                 return true;
             }
         }
@@ -39,13 +46,5 @@ impl Circle {
 
     pub fn change_radius(&mut self, rad: f64) {
         self.r += rad;
-    }
-
-    pub fn copy(&self) -> Self {
-        Circle {
-            x: self.x,
-            y: self.y,
-            r: self.r,
-        }
     }
 }

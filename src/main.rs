@@ -1,23 +1,17 @@
-use sdl2::{gfx::primitives::DrawRenderer, pixels::Color, rect::Rect, event::Event, keyboard::Keycode};
+use sdl2::{gfx::primitives::DrawRenderer, pixels::Color, event::Event, keyboard::Keycode};
 use std::time::Duration;
-use rand::{thread_rng, Rng};
+use rand;
 
 mod circles;
-use circles::Circle;
 mod scene;
 use scene::Scene;
 
 fn main() {
     let size = (800, 800);
-    let c_count = 10;
-
+    let circles_per_frame = 10;
+    let rate = 1.0f64;
+    let mut scene = Scene::new(size, rate);
     let mut rng = rand::thread_rng();
-    
-    let mut circles = Vec::<Circle>::with_capacity(c_count);
-    for x in 0..c_count {
-        circles.push(Circle::new(rng.gen_range(20.0..780.0), rng.gen_range(20.0..780.0), rng.gen_range(5.0..20.0)));
-    }
-    let mut scene = Scene::new(size, 0.5, circles);
 
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -34,10 +28,14 @@ fn main() {
     'running: loop {
         canvas.set_draw_color(Color::RGB(0,0,0));
         canvas.clear();
+        scene.populate(circles_per_frame, &mut rng);
+        scene.update();
 
         canvas.set_draw_color(Color::RGB(255, 210, 0));
         for c in &scene.circles {
-            canvas.filled_circle(c.x as i16, c.y as i16, c.r as i16, Color::RGB(255, 0, 0));
+            canvas.circle(c.x as i16, c.y as i16, c.r as i16, c.c);
+        } for c in &scene.dynamic {
+            canvas.circle(c.x as i16, c.y as i16, c.r as i16, c.c);
         }
         
         for event in event_pump.poll_iter() {

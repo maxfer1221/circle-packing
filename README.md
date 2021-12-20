@@ -12,6 +12,10 @@ Feature extraction prioritizes sampling of striking pixels for the circle packin
 2. `cd circle-packing`
 3. `cargo run path/to/image circle_count circle_rate feature_threshold thread_count step_size`, e.g.: `cargo run test\ images/example1.jpg 100 1 10 10 1`
 
+`circle_count`: Number of circles to add per frame. Larger numbers will lead to smaller circles and more detailed images.
+
+`circle_rate`: Expansion rate for circle radii. Larger numbers will lead to larger circles before collisions.
+
 `feature_threshold`: (feature extraction specific) Dictates feature sensitivity. Higher values mean fewer, more striking features will be found.
 
 `thread_count`: Dictates how many threads the program can spawn. Minimum of 1.

@@ -4,17 +4,17 @@ version = "0.1.1"
 authors = ["Maximo Fernandez <maxfer1221@gmail.com"]
 description = "Circle Packing with Integrated FAST Feature Extraction"
 liscense = "MIT"
-repository = "https://github.com/maxfer1221/circle-packing"
+repository = "https://github.com/maxfer1221/face_detection"
 readme = "README.md"
-keywords = ["circle packing", "circle"]
+keywords = ["circle packing", "feature extraction"]
 edition = "2018"
 
 [dependencies]
-rand = "0.8.4"
-image = "0.23.14"
-crossbeam = "0.8.1"
+rand = "*"
+image = "*"
+crossbeam = "*"
 
 [dependencies.sdl2]
-version = "0.35.1"
+version = "*"
 default-features = false
 features = ["gfx"]

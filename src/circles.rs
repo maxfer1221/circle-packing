@@ -22,7 +22,9 @@ impl Circle {
             r: r,
             c: match c {
                 Some(c) => c,
-                None => Color::RGB(255, 255, 255),
+                None => {
+                    Color::RGB(255, 255, 255)
+                }
             },
         }
     }

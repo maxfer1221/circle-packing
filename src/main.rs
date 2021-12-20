@@ -1,3 +1,4 @@
+use image::open;
 use sdl2::{gfx::primitives::DrawRenderer, pixels::Color, event::Event, keyboard::Keycode};
 use std::time::Duration;
 use rand;
@@ -5,12 +6,30 @@ use rand;
 mod circles;
 mod scene;
 use scene::Scene;
+mod image_processing;
+mod features;
 
 fn main() {
-    let size = (800, 800);
-    let circles_per_frame = 10;
-    let rate = 1.0f64;
-    let mut scene = Scene::new(size, rate);
+    let args: &[String] = &std::env::args().collect::<Vec<String>>();
+    let img_name: &String = &args[1];
+    let (img, size) = match open(img_name) {
+        Err(e) => {
+            println!("Error opening image: {:?}", e);
+            std::process::exit(1);
+        },
+        Ok(i) => (i.into_rgb8(), image::image_dimensions(img_name). unwrap()),
+    };
+
+    // feature extraction
+    let cpf: u32 = args[2].parse::<u32>().unwrap();
+    let rate: f64 = args[3].parse::<f64>().unwrap();
+    let t: i16 = args[4].parse::<i16>().unwrap();
+    let th: u8 = args[5].parse::<u8>().unwrap();
+    let step: usize = args[6].parse::<usize>().unwrap();
+    let (mut feature_pixels, mut index): (Vec<Vec<[usize; 2]>>, usize) = 
+        image_processing::detect_features_clean(&img, size, t, th, step).unwrap();
+
+    let mut scene = Scene::new(size, cpf, rate);
     let mut rng = rand::thread_rng();
 
     let sdl_context = sdl2::init().unwrap();
@@ -28,14 +47,23 @@ fn main() {
     'running: loop {
         canvas.set_draw_color(Color::RGB(0,0,0));
         canvas.clear();
-        scene.populate(circles_per_frame, &mut rng);
-        scene.update();
+
+
+        if index >= 0 {
+            scene.update();
+            if !scene.populate_fp(scene.cpf, &mut rng, &img, &mut feature_pixels[index]) {
+                index -= 1;
+                scene.cpf /= 2;
+            }
+        } else {
+            println!("done");
+        }
 
         canvas.set_draw_color(Color::RGB(255, 210, 0));
         for c in &scene.circles {
-            canvas.circle(c.x as i16, c.y as i16, c.r as i16, c.c);
+            canvas.filled_circle(c.x as i16, c.y as i16, c.r as i16, c.c).unwrap();
         } for c in &scene.dynamic {
-            canvas.circle(c.x as i16, c.y as i16, c.r as i16, c.c);
+            canvas.filled_circle(c.x as i16, c.y as i16, c.r as i16, c.c).unwrap();
         }
         
         for event in event_pump.poll_iter() {

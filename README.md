@@ -20,16 +20,16 @@ Feature extraction prioritizes sampling of striking pixels for the circle packin
 
 ### Circle Packing [Examples](https://github.com/maxfer1221/circle-packing/tree/main/out)
 <p float="left">
- <img display="inline" src="https://github.com/maxfer1221/face_detection/blob/main/test%20images/example1.jpg?raw=true" alt="example_1" height="320">
- <img src="https://github.com/maxfer1221/face_detection/blob/main/out/example1.png?raw=true" alt="example_1_out" height="320">
+ <img display="inline" src="https://github.com/maxfer1221/circle-packing/blob/main/test%20images/example1.jpg?raw=true" alt="example_1" height="320">
+ <img src="https://github.com/maxfer1221/circle-packing/blob/main/out/example1.png?raw=true" alt="example_1_out" height="320">
 </p>
 <p float="left">
- <img display="inline" src="https://github.com/maxfer1221/face_detection/blob/main/test%20images/example2.jpeg?raw=true" alt="example_2" width="400">
- <img src="https://github.com/maxfer1221/face_detection/blob/main/out/example2.png?raw=true" alt="example_2_out" width="400">
+ <img display="inline" src="https://github.com/maxfer1221/circle-packing/blob/main/test%20images/example2.jpeg?raw=true" alt="example_2" width="400">
+ <img src="https://github.com/maxfer1221/circle-packing/blob/main/out/example2.png?raw=true" alt="example_2_out" width="400">
 </p>
 <p float="left">
- <img display="inline" src="https://github.com/maxfer1221/face_detection/blob/main/test%20images/example3.jpg?raw=true" alt="example_3" width="400">
- <img src="https://github.com/maxfer1221/face_detection/blob/main/out/example3.png?raw=true" alt="example_3_out" width="400">
+ <img display="inline" src="https://github.com/maxfer1221/circle-packing/blob/main/test%20images/example3.jpg?raw=true" alt="example_3" width="400">
+ <img src="https://github.com/maxfer1221/circle-packing/blob/main/out/example3.png?raw=true" alt="example_3_out" width="400">
 </p>
 Created through: `cargo run test\ images/example_._ 200 1 10 10 1`
 

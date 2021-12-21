@@ -1,6 +1,6 @@
 [package]
 name = "circle-packing"
-version = "0.1.1"
+version = "1.0.0"
 authors = ["Maximo Fernandez <maxfer1221@gmail.com"]
 description = "Circle Packing with Integrated FAST Feature Extraction"
 liscense = "MIT"

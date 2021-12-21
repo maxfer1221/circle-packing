@@ -7,6 +7,8 @@ Circle colors are dictated by pixel colors in the original image (i.e., a circle
 
 Feature extraction prioritizes sampling of striking pixels for the circle packing, leading to more detailed images.
 
+A hash grid is used to speed up distance calculations. Only nearby circles are tested against to dictate whether a collision has been found.
+
 ## Usage
 1. `git clone https://github.com/maxfer1221/circle-packing`
 2. `cd circle-packing`
@@ -46,4 +48,4 @@ Created through: `cargo run test\ images/example_._ 200 1 10 10 1`
  - [crossbeam](https://crates.io/crates/crossbeam): Thread synchronization and scoping
 
 ### TBD
- - Hash Grid usage to expedite circle collision detection (current solution compares every circle)
+ - ~~Hash Grid usage to expedite circle collision detection (current solution compares every circle)~~

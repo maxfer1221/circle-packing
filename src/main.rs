@@ -29,7 +29,7 @@ fn main() {
     let (mut feature_pixels, mut index): (Vec<Vec<[usize; 2]>>, isize) =
         image_processing::detect_features_clean(&img, size, t, th, step).unwrap();
 
-    let mut scene = Scene::new(size, cpf, rate);
+    let mut scene = Scene::new(size, cpf, rate, (10.0, 10.0));
 
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -44,6 +44,9 @@ fn main() {
 
     let mut event_pump = sdl_context.event_pump().unwrap();
 
+    // index -= 1;
+    // scene.populate_fp(scene.cpf, &img, &mut feature_pixels[index as usize]);
+
     'running: loop {
         canvas.set_draw_color(Color::RGB(0, 0, 0));
         canvas.clear();
@@ -51,15 +54,39 @@ fn main() {
         scene.update();
         if index >= 0 && !scene.populate_fp(scene.cpf, &img, &mut feature_pixels[index as usize]) {
             index -= 1;
-            scene.cpf /= 2;
         }
 
-        canvas.set_draw_color(Color::RGB(255, 210, 0));
-        for c in &scene.circles {
+        // canvas.set_draw_color(Color::RGB(255, 0, 0));
+        // for x in 0..scene.hashgrid.cell_count.0 {
+        //     canvas.draw_rect(Rect::new(
+        //         (x as f64 * scene.hashgrid.cell_dimensions.0) as i32,
+        //         0,
+        //         1,
+        //         scene.size.1 as u32,
+        //     ));
+        //     for y in 0..scene.hashgrid.cell_count.1 {
+        //         canvas.draw_rect(Rect::new(
+        //             x as i32,
+        //             (y as f64 * scene.hashgrid.cell_dimensions.1) as i32,
+        //             scene.size.0 as u32,
+        //             1,
+        //         ));
+        //     }
+        // }
+
+        for c in &scene.hashgrid.all_elements {
             canvas
-                .filled_circle(c.x as i16, c.y as i16, c.r as i16, c.c)
+                .filled_circle(c.x as i16, c.y as i16, c.radius as i16, c.color)
                 .unwrap();
         }
+        // let mut _i = 0;
+        // for x in &feature_pixels {
+        //     canvas.set_draw_color(Color::RGB(120 * _i, 0, 0));
+        //     for y in x {
+        //         canvas.fill_rect(sdl2::rect::Rect::new(y[0] as i32, y[1] as i32, 1, 1));
+        //     }
+        //     _i += 1;
+        // }
 
         for event in event_pump.poll_iter() {
             match event {

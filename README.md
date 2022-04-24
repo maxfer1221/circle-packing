@@ -44,7 +44,7 @@ Created through: `cargo run test\ images/example_._ 200 1 10 10 1`
 
 ### Libraries used
  - [sdl2](https://crates.io/crates/sdl2): Circle packing display
- - [image](https://crates.io/crates/image): Basic iage manipulation
+ - [image](https://crates.io/crates/image): Basic image manipulation
  - [crossbeam](https://crates.io/crates/crossbeam): Thread synchronization and scoping
 
 ### TBD
